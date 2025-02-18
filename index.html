@@ -18,7 +18,8 @@
         <script type="module" src="https://cdn.jsdelivr.net/npm/@playcanvas/web-components@0.1.13/dist/pwc.mjs"></script>
     </head>
     <body>
-        <pc-app antialias="false" depth="false" high-resolution="true" stencil="false">
+        <!-- pc-app の high‑resolution 属性は後から JavaScript で設定 -->
+        <pc-app id="pcApp" antialias="false" depth="false" stencil="false">
             <pc-asset src="https://cdn.jsdelivr.net/npm/playcanvas@2.4.2/scripts/esm/camera-controls.mjs"></pc-asset>
             <pc-asset src="https://cdn.jsdelivr.net/npm/playcanvas@2.4.2/scripts/esm/xr-controllers.mjs"></pc-asset>
             <pc-asset src="https://cdn.jsdelivr.net/npm/playcanvas@2.4.2/scripts/esm/xr-navigation.mjs"></pc-asset>
@@ -119,5 +120,20 @@
         </div>
 
         <script type="module" src="./index.js"></script>
+        
+        <!-- スマートフォンの場合のみ high-resolution 属性を false にする -->
+        <script>
+            // スマートフォン判定用の関数（ユーザーエージェントによる簡易判定）
+            function isSmartphone() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                var appElement = document.getElementById('pcApp');
+                if (appElement) {
+                    // スマートフォンの場合は false、それ以外は true に設定
+                    appElement.setAttribute('high-resolution', isSmartphone() ? 'false' : 'true');
+                }
+            });
+        </script>
     </body>
 </html>
